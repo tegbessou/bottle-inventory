@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="bottle_inventory.owner.doesnt_exist">
+                <source>bottle_inventory.owner.doesnt_exist</source>
+                <target>Le propriétaire avec l'identifiant {id} n'existe pas.</target>
+            </trans-unit>
+            <trans-unit id="bottle_inventory.country.doesnt_exist">
+                <source>bottle_inventory.country.doesnt_exist</source>
+                <target>Le pays avec le nom {country} n'existe pas.</target>
+            </trans-unit>
+            <trans-unit id="bottle_inventory.grape_varieties.doesnt_exist">
+                <source>bottle_inventory.grape_varieties.doesnt_exist</source>
+                <target>{grapeVarieties, plural, =1 {Le cépage portant le nom {grapeVarietiesString} n'existe pas.} other {Les cépages portant le nom {grapeVarietiesString} n'existent pas.}}</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
