@@ -62,6 +62,12 @@ when@dev:
         EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
             alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
+        EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
+            alias: EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryFakeRepository
+
+        EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserRepositoryInterface:
+            alias: EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserFakeRepository
+
 when@test:
     services:
         EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:

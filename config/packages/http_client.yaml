@@ -1,0 +1,23 @@
+framework:
+  http_client:
+    scoped_clients:
+      country_api:
+        base_uri: '%env(COUNTRY_API_URL)%'
+      user_api:
+        base_uri: '%env(USER_API_URL)%'
+        headers:
+          Content-Type: 'application/ld+json'
+
+when@dev:
+  framework:
+    http_client:
+      default_options:
+        verify_peer: false
+        verify_host: false
+
+when@test:
+  framework:
+    http_client:
+      default_options:
+        verify_peer: false
+        verify_host: false
