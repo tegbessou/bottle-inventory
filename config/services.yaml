@@ -1,24 +1,77 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
+        bind:
+            $emailBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN)%'
+            $passwordBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD)%'
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
+    EmpireDesAmis\BottleInventory\:
         resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    EmpireDesAmis\BottleInventory\DataFixtures\:
+        resource: '../fixtures'
+
+    EmpireDesAmis\BottleInventory\Application\EventListener\OnBottleTasted:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
+        alias: EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepository
+
+    EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserRepositoryInterface:
+        alias: EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserRepository
+
+    EmpireDesAmis\BottleInventory\Domain\Service\UploadBottlePictureInterface:
+        alias: EmpireDesAmis\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploader
+
+    EmpireDesAmis\BottleInventory\Application\Adapter\BottleListAdapterInterface:
+        alias: EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Adapter\BottleListDoctrineAdapter
+        public: true
+
+    EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleListProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\AddPictureBottleProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\AddPictureBottleListProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\TasteBottleProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\UpdateBottleProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\UpdateBottleListProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\DeleteBottleProjection:
+        tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\BottleInventory\Application\Projection\DeleteBottleListProjection:
+        tags: [ kernel.event_listener ]
+
+when@dev:
+    services:
+        EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
+            alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
+
+when@test:
+    services:
+        EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
+            alias: EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryFakeRepository
+        
+        EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserRepositoryInterface:
+            alias: EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserFakeRepository
+        
+        EmpireDesAmis\BottleInventory\Domain\Service\UploadBottlePictureInterface:
+            alias: EmpireDesAmis\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderFake
+
+        EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
+            alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase

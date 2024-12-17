@@ -1,0 +1,35 @@
+framework:
+    messenger:
+        transports:
+            sync: 'sync://'
+            bottle_inventory:
+                dsn: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN)%'
+                options:
+                    exchange:
+                        name: bottle_inventory
+                        type: direct
+                        default_publish_routing_key: bottle_inventory
+                    queues:
+                        bottle_inventory:
+                            binding_keys: [ bottle_inventory ]
+            bottle_inventory_to_tasting:
+                dsn: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_TO_TASTING_DSN)%'
+                serializer: messenger.transport.symfony_serializer
+                options:
+                    exchange:
+                        name: tasting_from_external
+                        type: direct
+                        default_publish_routing_key: tasting_from_external
+                    queues:
+                        tasting:
+                            binding_keys: [tasting_from_external]
+
+        routing:
+            'EmpireDesAmis\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage': bottle_inventory_to_tasting
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                bottle_inventory: 'test://'
+                bottle_inventory_to_tasting: 'test://'

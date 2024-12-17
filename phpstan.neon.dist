@@ -1,0 +1,17 @@
+parameters:
+    tmpDir: var/cache/phpstan
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+        -
+            message: '#Parameter \$context of method EmpireDesAmis\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\CreateBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Infrastructure/ApiPlatform/State/Processor/CreateBottleProcessor.php
+        -
+            message: '#Parameter \$context of method EmpireDesAmis\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\DeleteBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Infrastructure/ApiPlatform/State/Processor/DeleteBottleProcessor.php
+        -
+            message: '#Parameter \$context of method EmpireDesAmis\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\PutBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Infrastructure/ApiPlatform/State/Processor/PutBottleProcessor.php
+        -
+            message: '#Parameter \$context of method EmpireDesAmis\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\TasteBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Infrastructure/ApiPlatform/State/Processor/TasteBottleProcessor.php
