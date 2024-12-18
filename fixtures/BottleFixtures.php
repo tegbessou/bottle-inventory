@@ -6,18 +6,9 @@ namespace EmpireDesAmis\BottleInventory\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use EmpireDesAmis\BottleInventory\Domain\Entity\Bottle;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleCountry;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleEstateName;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleId;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleName;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleOwnerId;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottlePicture;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottlePrice;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleRate;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleWineType;
-use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleYear;
+use EmpireDesAmis\BottleInventory\Domain\Enum\Rate;
+use EmpireDesAmis\BottleInventory\Domain\Enum\WineType;
+use EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Entity\Bottle;
 
 final class BottleFixtures extends Fixture
 {
@@ -26,173 +17,210 @@ final class BottleFixtures extends Fixture
     {
         $bottles = [];
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            BottleName::fromString('Château Margaux'),
-            BottleEstateName::fromString('Château Margaux'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2015),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot']),
-            BottleRate::fromString('++'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(1099.99),
-        )->addPicture(BottlePicture::fromString('chateau-margaux.jpg'));
+        $bottles[] = new Bottle(
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
+            'Château Margaux',
+            'Château Margaux',
+            WineType::RedWine,
+            2015,
+            ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
+            Rate::PLUS_PLUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'France',
+            1099.99,
+            null,
+            'chateau-margaux.jpg',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('3a28deee-f221-4aa1-800b-6b5b27137bfc'),
-            BottleName::fromString('Domaine de la Romanée-Conti'),
-            BottleEstateName::fromString('Domaine de la Romanée-Conti'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2010),
-            BottleGrapeVarieties::fromArray(['Pinot Noir']),
-            BottleRate::fromString('+'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(2999.99),
-        )->addPicture(BottlePicture::fromString('romanee-conti.jpg'));
+        $bottles[] = new Bottle(
+            '3a28deee-f221-4aa1-800b-6b5b27137bfc',
+            'Domaine de la Romanée-Conti',
+            'Domaine de la Romanée-Conti',
+            WineType::RedWine,
+            2010,
+            ['Pinot Noir'],
+            Rate::PLUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'France',
+            2999.99,
+            null,
+            'romanee-conti.jpg',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('29523184-face-4e1c-8582-1637cd501cee'),
-            BottleName::fromString('Château Latour'),
-            BottleEstateName::fromString('Château Latour'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2010),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
-            BottleRate::fromString('++'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(999.99),
-        )->addPicture(BottlePicture::fromString('chateau-latour.jpg'));
+        $bottles[] = new Bottle(
+            '29523184-face-4e1c-8582-1637cd501cee',
+            'Château Latour',
+            'Château Latour',
+            WineType::RedWine,
+            2010,
+            ['Cabernet Sauvignon', 'Merlot'],
+            Rate::PLUS_PLUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'France',
+            999.99,
+            null,
+            'chateau-latour.jpg',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('f077aa04-c3a4-4f1a-8c60-050b76bae7b7'),
-            BottleName::fromString('Opus One'),
-            BottleEstateName::fromString('Opus One'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2015),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
-            BottleRate::fromString('--'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('États-Unis'),
-            BottlePrice::fromFloat(1299.99),
-        )->addPicture(BottlePicture::fromString('opus-one.jpg'));
+        $bottles[] = new Bottle(
+            'f077aa04-c3a4-4f1a-8c60-050b76bae7b7',
+            'Opus One',
+            'Opus One',
+            WineType::RedWine,
+            2015,
+            ['Cabernet Sauvignon', 'Merlot'],
+            Rate::MINUS_MINUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'États-Unis',
+            1299.99,
+            null,
+            'opus-one.jpg',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('4eb449d9-7d23-4984-a68d-77aa19fccc60'),
-            BottleName::fromString('Sassicaia'),
-            BottleEstateName::fromString('Tenuta San Guido'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2012),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Cabernet Franc']),
-            BottleRate::fromString('xs'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('Italie'),
-            BottlePrice::fromFloat(899.99),
-        )->addPicture(BottlePicture::fromString('tenuta-san-guido.webp'));
+        $bottles[] = new Bottle(
+            '4eb449d9-7d23-4984-a68d-77aa19fccc60',
+            'Sassicaia',
+            'Tenuta San Guido',
+            WineType::RedWine,
+            2012,
+            ['Cabernet Sauvignon', 'Cabernet Franc'],
+            Rate::SPLENDID,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'Italie',
+            899.99,
+            null,
+            'tenuta-san-guido.webp',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('5ec0917b-179f-46e4-87d6-db76fbddf45f'),
-            BottleName::fromString('Domaine Leflaive Montrachet Grand Cru'),
-            BottleEstateName::fromString('Domaine Leflaive'),
-            BottleWineType::fromString('white'),
-            BottleYear::fromInt(2016),
-            BottleGrapeVarieties::fromArray(['Chardonnay']),
-            BottleRate::fromString('++'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(1599.99),
-        )->addPicture(BottlePicture::fromString('montrachet.png'));
+        $bottles[] = new Bottle(
+            '5ec0917b-179f-46e4-87d6-db76fbddf45f',
+            'Domaine Leflaive Montrachet Grand Cru',
+            'Domaine Leflaive',
+            WineType::WhiteWine,
+            2016,
+            ['Chardonnay'],
+            Rate::PLUS_PLUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'France',
+            1599.99,
+            null,
+            'montrachet.png',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('690a8473-82af-4e57-92cd-9186b12a024a'),
-            BottleName::fromString('Penfolds Grange'),
-            BottleEstateName::fromString('Penfolds'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2008),
-            BottleGrapeVarieties::fromArray(['Shiraz', 'Cabernet Sauvignon']),
-            BottleRate::fromString('='),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('Australie'),
-            BottlePrice::fromFloat(1799.99),
-        )->addPicture(BottlePicture::fromString('penfolds.webp'));
+        $bottles[] = new Bottle(
+            '690a8473-82af-4e57-92cd-9186b12a024a',
+            'Penfolds Grange',
+            'Penfolds',
+            WineType::RedWine,
+            2008,
+            ['Shiraz', 'Cabernet Sauvignon'],
+            Rate::EQUAL,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'Australie',
+            1799.99,
+            null,
+            'penfolds.webp',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('1c0bab10-f5e5-42dd-9748-baeb5be15050'),
-            BottleName::fromString('Caymus Vineyards Special Selection Cabernet Sauvignon'),
-            BottleEstateName::fromString('Caymus Vineyards'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2013),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon']),
-            BottleRate::fromString('++'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('États-Unis'),
-            BottlePrice::fromFloat(259.99),
-        )->addPicture(BottlePicture::fromString('caymus.jpg'));
+        $bottles[] = new Bottle(
+            '1c0bab10-f5e5-42dd-9748-baeb5be15050',
+            'Caymus Vineyards Special Selection Cabernet Sauvignon',
+            'Caymus Vineyards',
+            WineType::RedWine,
+            2013,
+            ['Cabernet Sauvignon'],
+            Rate::PLUS_PLUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'États-Unis',
+            259.99,
+            null,
+            'caymus.jpg',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('ea1708c2-a1d9-495e-80dc-93b0b61757ed'),
-            BottleName::fromString('Vega Sicilia Único'),
-            BottleEstateName::fromString('Vega Sicilia'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2011),
-            BottleGrapeVarieties::fromArray(['Tempranillo', 'Cabernet Sauvignon']),
-            BottleRate::fromString('--'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('Espagne'),
-            BottlePrice::fromFloat(1499.99),
-        )->addPicture(BottlePicture::fromString('vega-sicilia.webp'));
+        $bottles[] = new Bottle(
+            'ea1708c2-a1d9-495e-80dc-93b0b61757ed',
+            'Vega Sicilia Único',
+            'Vega Sicilia',
+            WineType::RedWine,
+            2011,
+            ['Tempranillo', 'Cabernet Sauvignon'],
+            Rate::MINUS_MINUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'Espagne',
+            1499.99,
+            null,
+            'vega-sicilia.webp',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('b54cafe9-436e-47a4-9456-61117f6a1648'),
-            BottleName::fromString('Cloudy Bay Sauvignon Blanc'),
-            BottleEstateName::fromString('Cloudy Bay'),
-            BottleWineType::fromString('white'),
-            BottleYear::fromInt(2019),
-            BottleGrapeVarieties::fromArray(['Sauvignon Blanc']),
-            BottleRate::fromString('-'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('New Zealand'),
-            BottlePrice::fromFloat(49.99),
-        )->addPicture(BottlePicture::fromString('cloudy-bay.png'));
+        $bottles[] = new Bottle(
+            'b54cafe9-436e-47a4-9456-61117f6a1648',
+            'Cloudy Bay Sauvignon Blanc',
+            'Cloudy Bay',
+            WineType::WhiteWine,
+            2019,
+            ['Sauvignon Blanc'],
+            Rate::MINUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'New Zealand',
+            49.99,
+            null,
+            'cloudy-bay.png',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('e7f247a6-661c-4640-8ac8-25ee1e3eeb6d'),
-            BottleName::fromString('Gaja Barbaresco'),
-            BottleEstateName::fromString('Gaja'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2016),
-            BottleGrapeVarieties::fromArray(['Nebbiolo']),
-            BottleRate::fromString('xs'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('Italy'),
-            BottlePrice::fromFloat(899.99),
-        )->addPicture(BottlePicture::fromString('gaja.jpg'));
+        $bottles[] = new Bottle(
+            'e7f247a6-661c-4640-8ac8-25ee1e3eeb6d',
+            'Gaja Barbaresco',
+            'Gaja',
+            WineType::RedWine,
+            2016,
+            ['Nebbiolo'],
+            Rate::SPLENDID,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'Italy',
+            899.99,
+            null,
+            'gaja.jpg',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('97102d4c-da46-4105-8c34-53f5a2e1e9fa'),
-            BottleName::fromString('Ridge Monte Bello'),
-            BottleEstateName::fromString('Ridge Vineyards'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2014),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
-            BottleRate::fromString('='),
-            BottleOwnerId::fromString('root@gmail.com'),
-            BottleCountry::fromString('United States'),
-            BottlePrice::fromFloat(199.99),
-        )->addPicture(BottlePicture::fromString('ridge-vineyards.png'));
+        $bottles[] = new Bottle(
+            '97102d4c-da46-4105-8c34-53f5a2e1e9fa',
+            'Ridge Monte Bello',
+            'Ridge Vineyards',
+            WineType::RedWine,
+            2014,
+            ['Cabernet Sauvignon', 'Merlot'],
+            Rate::EQUAL,
+            'root@gmail.com',
+            new \DateTimeImmutable(),
+            'United States',
+            199.99,
+            null,
+            'ridge-vineyards.png',
+        );
 
-        $bottles[] = Bottle::create(
-            BottleId::fromString('635e809c-aaaf-40df-8483-83cfbe2c5504'),
-            BottleName::fromString('Guigal Côte-Rôtie'),
-            BottleEstateName::fromString('E. Guigal'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2014),
-            BottleGrapeVarieties::fromArray(['Syrah', 'Viognier']),
-            BottleRate::fromString('++'),
-            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(358.99),
+        $bottles[] = new Bottle(
+            '635e809c-aaaf-40df-8483-83cfbe2c5504',
+            'Guigal Côte-Rôtie',
+            'E. Guigal',
+            WineType::RedWine,
+            2014,
+            ['Syrah', 'Viognier'],
+            Rate::PLUS_PLUS,
+            'hugues.gobet@gmail.com',
+            new \DateTimeImmutable(),
+            'France',
+            358.99,
         );
 
         foreach ($bottles as $bottle) {

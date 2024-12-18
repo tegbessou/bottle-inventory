@@ -8,11 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use EmpireDesAmis\BottleInventory\Domain\Entity\Bottle;
 use EmpireDesAmis\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleId;
+use EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Entity\Bottle as BottleDoctrine;
+use EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Mapper\BottleMapper;
 use Symfony\Component\Uid\Uuid;
 
 final readonly class BottleDoctrineRepository implements BottleRepositoryInterface
 {
-    private const string ENTITY_CLASS = Bottle::class;
+    private const string ENTITY_CLASS = BottleDoctrine::class;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -22,13 +24,21 @@ final readonly class BottleDoctrineRepository implements BottleRepositoryInterfa
     #[\Override]
     public function ofId(BottleId $bottleId): ?Bottle
     {
-        return $this->entityManager->find(self::ENTITY_CLASS, $bottleId->value());
+        $bottleDoctrine = $this->entityManager->find(self::ENTITY_CLASS, $bottleId->value());
+
+        if ($bottleDoctrine === null) {
+            return null;
+        }
+
+        return BottleMapper::toDomain($bottleDoctrine);
     }
 
     #[\Override]
     public function add(Bottle $bottle): void
     {
-        $this->entityManager->persist($bottle);
+        $bottleToDoctrine = BottleMapper::toInfrastructurePersist($bottle);
+
+        $this->entityManager->persist($bottleToDoctrine);
         $this->entityManager->flush();
     }
 
@@ -43,13 +53,31 @@ final readonly class BottleDoctrineRepository implements BottleRepositoryInterfa
     #[\Override]
     public function update(Bottle $bottle): void
     {
+        $bottleOrm = $this->entityManager->getRepository(self::ENTITY_CLASS)->find(
+            $bottle->id()->value(),
+        );
+
+        if ($bottleOrm === null) {
+            throw new \LogicException('BottleDoctrineRepository Bottle must exist in doctrine.');
+        }
+
+        BottleMapper::toInfrastructureUpdate($bottle, $bottleOrm);
+
         $this->entityManager->flush();
     }
 
     #[\Override]
     public function delete(Bottle $bottle): void
     {
-        $this->entityManager->remove($bottle);
+        $bottleOrm = $this->entityManager->getRepository(self::ENTITY_CLASS)->find(
+            $bottle->id()->value(),
+        );
+
+        if ($bottleOrm === null) {
+            throw new \LogicException('BottleDoctrineRepository Bottle must exist in doctrine.');
+        }
+
+        $this->entityManager->remove($bottleOrm);
         $this->entityManager->flush();
     }
 }

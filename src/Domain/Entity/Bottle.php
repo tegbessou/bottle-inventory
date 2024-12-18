@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EmpireDesAmis\BottleInventory\Domain\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleCreated;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleDeleted;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottlePictureAdded;
@@ -27,39 +26,24 @@ use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleYear;
 use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
 use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
-#[ORM\Entity]
 final class Bottle implements EntityWithDomainEventInterface
 {
     use EntityDomainEventTrait;
 
-    #[ORM\Embedded(columnPrefix: false)]
-    private ?BottlePicture $picture = null;
-
     public function __construct(
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleId $id,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleName $name,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleEstateName $estateName,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleWineType $wineType,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleYear $year,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleGrapeVarieties $grapeVarieties,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleRate $rate,
-        #[ORM\Embedded(columnPrefix: false)]
         private BottleOwnerId $ownerId,
-        #[ORM\Embedded(columnPrefix: false)]
         private ?BottleCountry $country = null,
-        #[ORM\Embedded(columnPrefix: false)]
         private ?BottlePrice $price = null,
-        #[ORM\Embedded(columnPrefix: false)]
         private ?BottleSavedAt $savedAt = null,
-        #[ORM\Embedded(columnPrefix: false)]
         private ?BottleTastedAt $tastedAt = null,
+        private ?BottlePicture $picture = null,
     ) {
     }
 
