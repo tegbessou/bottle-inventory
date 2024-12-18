@@ -1,4 +1,4 @@
-# User - Des amis, du vin
+# Bottle Inventory - Des amis, du vin
 ![CI](https://github.com/tegbessou/skeleton/workflows/CI/badge.svg)
 ## Distillation document (in French)
 
