@@ -146,17 +146,6 @@ to transform this data to our domain
 ![img.png](resources/v1-domain.png)
 ![img.png](resources/v2-domain.png)
 
-### Refactoring user
+### Refactoring bottle inventory
 
-Add friend system + invitation....
-
-User context is responsible to send notification when invitation is sent
-
-Extract it in a microservice and a new project
-
-Add a fullname to user
-
-## Refactoring tech
-Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
-
-Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
+Add a command to import grape varieties

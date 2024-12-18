@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace EmpireDesAmis\BottleInventory\Domain\ValueObject;
 
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final readonly class BottleSavedAt
 {
-    #[ORM\Column(name: 'saved_at', type: 'date_immutable')]
     private \DateTimeImmutable $date;
 
     public function __construct(
@@ -31,6 +28,11 @@ final readonly class BottleSavedAt
         return new self(
             $date,
         );
+    }
+
+    public function value(): \DateTimeImmutable
+    {
+        return $this->date;
     }
 
     public function dateUs(): string

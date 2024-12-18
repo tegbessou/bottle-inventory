@@ -93,7 +93,7 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
         );
 
         $this->assertNull(
-            $bottle->picture()->path(),
+            $bottle->picture()?->path(),
         );
 
         $bottle->addPicture(BottlePicture::fromString('picture.jpg'));

@@ -19,9 +19,10 @@ return RectorConfig::configure()
         AddVoidReturnTypeWhereNoReturnRector::class,
     ])
     ->withSkip([
-        // I add this because reflection need to update Owner Id so I can't make it readonly
         ReadOnlyClassRector::class => [
-            __DIR__.'/src/Infrastructure/Doctrine/Entity/User.php',
-            __DIR__.'/src/Application/ReadModel/User.php',
+            __DIR__.'/src/Infrastructure/Doctrine/Entity/Bottle.php',
+            __DIR__.'/src/Infrastructure/Doctrine/Entity/GrapeVariety.php',
+            __DIR__.'/src/Application/ReadModel/Bottle.php',
+            __DIR__.'/src/Application/ReadModel/GrapeVariety.php',
         ],
     ]);

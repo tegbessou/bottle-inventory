@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace EmpireDesAmis\BottleInventory\Domain\ValueObject;
 
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final readonly class BottleCountry
 {
-    #[ORM\Column(name: 'country', type: 'string', length: 255, nullable: true)]
     private string $value;
 
     public function __construct(
