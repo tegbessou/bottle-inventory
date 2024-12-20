@@ -44,6 +44,11 @@ final class TasteBottleProcessorTest extends ApiTestCase
         $this->assertNotNull($bottle->tastedAt());
 
         $this->transport('bottle_inventory_to_tasting')->queue()->assertContains(BottleTastedMessage::class, 1);
+        /** @var BottleTastedMessage $message */
+        $message = $this->transport('bottle_inventory_to_tasting')->queue()->messages()[0];
+        $this->assertEquals('Château Margaux', $message->bottleName);
+        $this->assertEquals('red', $message->bottleWineType);
+        $this->assertEquals('hugues.gobet@gmail.com', $message->ownerEmail);
     }
 
     #[DataProvider('provideInvalidData')]

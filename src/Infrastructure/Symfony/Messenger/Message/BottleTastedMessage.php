@@ -9,7 +9,8 @@ use EmpireDesAmis\BottleInventory\Domain\Event\BottleTasted;
 final readonly class BottleTastedMessage
 {
     public function __construct(
-        public string $bottleId,
+        public string $bottleName,
+        public string $bottleWineType,
         public string $ownerEmail,
     ) {
     }
@@ -18,7 +19,8 @@ final readonly class BottleTastedMessage
         BottleTasted $event,
     ): self {
         return new self(
-            $event->bottleId,
+            $event->bottleName,
+            $event->bottleWineType,
             $event->ownerId,
         );
     }

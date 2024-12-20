@@ -121,6 +121,8 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleTasted(
                 $this->id->value(),
+                $this->name->value(),
+                $this->wineType->value(),
                 $this->ownerId->value(),
                 $this->tastedAt->dateUs(),
             )
