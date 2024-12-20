@@ -29,6 +29,8 @@ final class TasteBottleProjectionTest extends KernelTestCase
 
         $event = new BottleTasted(
             '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
+            'Château Margaux',
+            'red',
             'hugues.gobet@gmail.com',
             '2021-10-10',
         );
@@ -48,6 +50,8 @@ final class TasteBottleProjectionTest extends KernelTestCase
 
         $event = new BottleTasted(
             'aacb6bce-1111-42e0-852e-f9813abb49fa',
+            'Côte Rotie',
+            'red',
             'hugues.gobet@gmail.com',
             '2021-10-10',
         );

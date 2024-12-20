@@ -11,6 +11,8 @@ final class BottleTasted extends DomainEvent implements DomainEventInterface
 {
     public function __construct(
         public string $bottleId,
+        public string $bottleName,
+        public string $bottleWineType,
         public string $ownerId,
         public string $tastedAt,
     ) {

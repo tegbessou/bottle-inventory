@@ -578,6 +578,8 @@ final class BottleTest extends TestCase
 
         $this->assertInstanceOf(BottleTasted::class, $bottle::getRecordedEvent()[0]);
         $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('Château de Fonsalette', $bottle::getRecordedEvent()[0]->bottleName);
+        $this->assertEquals('red', $bottle::getRecordedEvent()[0]->bottleWineType);
         $this->assertEquals('hugues.gobet@gmail.com', $bottle::getRecordedEvent()[0]->ownerId);
         $this->assertEquals((new \DateTimeImmutable())->format('Y-m-d'), $bottle::getRecordedEvent()[0]->tastedAt);
         $bottle::eraseRecordedEvents();
