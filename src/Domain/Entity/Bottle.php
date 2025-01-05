@@ -6,6 +6,7 @@ namespace EmpireDesAmis\BottleInventory\Domain\Entity;
 
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleCreated;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleDeleted;
+use EmpireDesAmis\BottleInventory\Domain\Event\BottleDuplicated;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottlePictureAdded;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleTasted;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleUpdated;
@@ -172,6 +173,32 @@ final class Bottle implements EntityWithDomainEventInterface
                 $this->price?->amount() ?? null,
             )
         );
+    }
+
+    public function duplicate(
+        BottleId $id,
+        BottleOwnerId $ownerId,
+    ): Bottle {
+        $duplicateBottle = self::create(
+            $id,
+            $this->name,
+            $this->estateName,
+            $this->wineType,
+            $this->year,
+            $this->grapeVarieties,
+            $this->rate,
+            $ownerId,
+            $this->country,
+            $this->price,
+        );
+
+        self::recordEvent(
+            new BottleDuplicated(
+                $duplicateBottle->id()->value(),
+            ),
+        );
+
+        return $duplicateBottle;
     }
 
     public function id(): BottleId

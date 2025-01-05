@@ -7,6 +7,7 @@ namespace EmpireDesAmis\BottleInventory\Tests\UnitTest\BottleInventory\Domain\En
 use EmpireDesAmis\BottleInventory\Domain\Entity\Bottle;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleCreated;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleDeleted;
+use EmpireDesAmis\BottleInventory\Domain\Event\BottleDuplicated;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottlePictureAdded;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleTasted;
 use EmpireDesAmis\BottleInventory\Domain\Event\BottleUpdated;
@@ -686,5 +687,110 @@ final class BottleTest extends TestCase
         $this->assertEquals(120.99, $bottle::getRecordedEvent()[0]->price);
 
         $bottle::eraseRecordedEvents();
+    }
+
+    public function testDuplicate(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $duplicateBottle = $bottle->duplicate(
+            BottleId::fromString('b07aec45-5047-469e-9ea5-aa1e2fabce96'),
+            BottleOwnerId::fromString('root@gmail.com'),
+        );
+
+        $this->assertInstanceOf(
+            Bottle::class,
+            $duplicateBottle,
+        );
+        $this->assertEquals(
+            'b07aec45-5047-469e-9ea5-aa1e2fabce96',
+            $duplicateBottle->id()->value(),
+        );
+        $this->assertEquals(
+            'Château de Fonsalette',
+            $duplicateBottle->name()->value(),
+        );
+        $this->assertEquals(
+            'Château Rayas',
+            $duplicateBottle->estateName()->value(),
+        );
+        $this->assertEquals(
+            'red',
+            $duplicateBottle->wineType()->value(),
+        );
+        $this->assertEquals(
+            2000,
+            $duplicateBottle->year()->value(),
+        );
+        $this->assertEquals(
+            ['Grenache', 'Cinsault', 'Syrah'],
+            $duplicateBottle->grapeVarieties()->values(),
+        );
+        $this->assertEquals(
+            'xs',
+            $duplicateBottle->rate()->value(),
+        );
+        $this->assertEquals(
+            'root@gmail.com',
+            $duplicateBottle->ownerId()->value(),
+        );
+        $this->assertEquals(
+            'France',
+            $duplicateBottle->country()->value(),
+        );
+        $this->assertEquals(
+            12.99,
+            $duplicateBottle->price()->amount(),
+        );
+    }
+
+    public function testDuplicateSuccessEvent(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $duplicateBottle = $bottle->duplicate(
+            BottleId::fromString('b07aec45-5047-469e-9ea5-aa1e2fabce96'),
+            BottleOwnerId::fromString('root@gmail.com'),
+        );
+
+        $this->assertInstanceOf(BottleCreated::class, $duplicateBottle::getRecordedEvent()[0]);
+        $this->assertEquals('b07aec45-5047-469e-9ea5-aa1e2fabce96', $duplicateBottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('Château de Fonsalette', $duplicateBottle::getRecordedEvent()[0]->name);
+        $this->assertEquals('Château Rayas', $duplicateBottle::getRecordedEvent()[0]->estateName);
+        $this->assertEquals('red', $duplicateBottle::getRecordedEvent()[0]->wineType);
+        $this->assertEquals(2000, $duplicateBottle::getRecordedEvent()[0]->year);
+        $this->assertEquals(['Grenache', 'Cinsault', 'Syrah'], $duplicateBottle::getRecordedEvent()[0]->grapeVarieties);
+        $this->assertEquals('xs', $duplicateBottle::getRecordedEvent()[0]->rate);
+        $this->assertEquals('root@gmail.com', $duplicateBottle::getRecordedEvent()[0]->ownerId);
+        $this->assertNotNull($duplicateBottle::getRecordedEvent()[0]->savedAt);
+        $this->assertEquals('France', $duplicateBottle::getRecordedEvent()[0]->country);
+        $this->assertEquals(12.99, $duplicateBottle::getRecordedEvent()[0]->price);
+
+        $this->assertInstanceOf(BottleDuplicated::class, $duplicateBottle::getRecordedEvent()[1]);
+        $this->assertEquals('b07aec45-5047-469e-9ea5-aa1e2fabce96', $duplicateBottle::getRecordedEvent()[1]->bottleId);
     }
 }

@@ -149,3 +149,7 @@ to transform this data to our domain
 ### Refactoring bottle inventory
 
 Add a command to import grape varieties
+
+## Todo
+
+- [ ] Handle CreateBottleForParticipantWhenInvitationIsAcceptedMessage message
