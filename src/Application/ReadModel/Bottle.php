@@ -28,9 +28,9 @@ class Bottle
         /** @var string[] $grapeVarieties */
         public array $grapeVarieties,
         #[MongoDB\Field(type: 'string')]
-        public string  $ownerId,
+        public string $ownerId,
         #[MongoDB\Field(type: 'string')]
-        public string  $ownerName,
+        public string $ownerName,
         #[MongoDB\Field(type: 'string', nullable: true)]
         public ?string $country = null,
         #[MongoDB\Field(type: 'float', nullable: true)]
