@@ -10,7 +10,6 @@ use EmpireDesAmis\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleId;
 use EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Entity\Bottle as BottleDoctrine;
 use EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Mapper\BottleMapper;
-use Symfony\Component\Uid\Uuid;
 
 final readonly class BottleDoctrineRepository implements BottleRepositoryInterface
 {
@@ -40,14 +39,6 @@ final readonly class BottleDoctrineRepository implements BottleRepositoryInterfa
 
         $this->entityManager->persist($bottleToDoctrine);
         $this->entityManager->flush();
-    }
-
-    #[\Override]
-    public function nextIdentity(): BottleId
-    {
-        return BottleId::fromString(
-            Uuid::v4()->toRfc4122()
-        );
     }
 
     #[\Override]

@@ -18,6 +18,7 @@ use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleRate;
 use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleWineType;
 use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleYear;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Factory\IdFactory;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
@@ -27,6 +28,7 @@ final readonly class CreateBottleCommandHandler
         private DomainEventDispatcherInterface $dispatcher,
         private BottleValidator $validator,
         private BottleRepositoryInterface $bottleRepository,
+        private IdFactory $idFactory,
     ) {
     }
 
@@ -38,7 +40,7 @@ final readonly class CreateBottleCommandHandler
         );
 
         $bottle = Bottle::create(
-            $this->bottleRepository->nextIdentity(),
+            BottleId::fromString($this->idFactory->create()),
             BottleName::fromString($createBottleCommand->name),
             BottleEstateName::fromString($createBottleCommand->estateName),
             BottleWineType::fromString($createBottleCommand->type),

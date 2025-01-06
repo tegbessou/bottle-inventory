@@ -79,13 +79,6 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
         );
     }
 
-    public function testNextIdentity(): void
-    {
-        $nextIdentity = $this->doctrineBottleRepository->nextIdentity();
-
-        $this->assertIsString($nextIdentity->value());
-    }
-
     public function testUpdate(): void
     {
         $bottle = $this->doctrineBottleRepository->ofId(

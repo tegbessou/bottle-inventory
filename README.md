@@ -149,8 +149,3 @@ to transform this data to our domain
 ### Refactoring bottle inventory
 
 Add a command to import grape varieties
-
-## Refactoring Tech
-
-- [ ] Replace for all repository the method next identity (do this in all ms)
-- [ ] Replace method toDomain to toModel (do this in all ms)

@@ -9,6 +9,7 @@ use EmpireDesAmis\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleId;
 use EmpireDesAmis\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Factory\IdFactory;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
@@ -17,6 +18,7 @@ final readonly class DuplicateBottleCommandHandler
     public function __construct(
         private DomainEventDispatcherInterface $dispatcher,
         private BottleRepositoryInterface $bottleRepository,
+        private IdFactory $idFactory,
     ) {
     }
 
@@ -31,7 +33,7 @@ final readonly class DuplicateBottleCommandHandler
         }
 
         $duplicateBottle = $bottle->duplicate(
-            $this->bottleRepository->nextIdentity(),
+            BottleId::fromString($this->idFactory->create()),
             BottleOwnerId::fromString($duplicateBottleCommand->newOwner),
         );
 
