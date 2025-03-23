@@ -1,0 +1,56 @@
+name: Deploy with Kamal
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+
+      - name: Install Kamal CLI via gem
+        run: gem install kamal
+
+      - name: Create credential file firebase
+        run: |
+          cat <<'EOF' > firebase_credentials.json
+          ${{ secrets.FIREBASE_CREDENTIALS }}
+          EOF
+
+      - name: Move file in folder
+        run: |
+          mkdir -p config/firebase
+          mv firebase_credentials.json config/firebase/firebase_credentials.json
+
+      - name: Deploy with kamal
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_PASSPHRASE: ${{ secrets.JWT_PASSPHRASE }}
+          MAILER_DSN: ${{ secrets.MAILER_DSN }}
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+          SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN: : ${{ secrets.SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN }}
+          SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD: : ${{ secrets.SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD }}
+          SERVICE_ACCOUNT_TASTING_LOGIN: : ${{ secrets.SERVICE_ACCOUNT_TASTING_LOGIN }}
+          SERVICE_ACCOUNT_TASTING_PASSWORD: : ${{ secrets.SERVICE_ACCOUNT_TASTING_PASSWORD }}
+          MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN: : ${{ secrets.MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN }}
+          MESSENGER_TRANSPORT_BOTTLE_INVENTORY_TO_TASTING_DSN: : ${{ secrets.MESSENGER_TRANSPORT_BOTTLE_INVENTORY_TO_TASTING_DSN }}
+          COUNTRY_API_URL: : ${{ secrets.COUNTRY_API_URL }}
+          USER_API_URL: : ${{ secrets.USER_API_URL }}
+        run: |
+          kamal deploy

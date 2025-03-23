@@ -51,7 +51,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
 
         if ($statusCode === 422) {
             $this->assertJsonContains([
-                '@type' => 'ConstraintViolationList',
+                '@type' => 'ConstraintViolation',
                 'title' => 'An error occurred',
                 'violations' => $violations,
             ]);

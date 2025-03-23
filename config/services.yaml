@@ -11,12 +11,6 @@ services:
     EmpireDesAmis\BottleInventory\:
         resource: '../src/'
 
-    EmpireDesAmis\BottleInventory\DataFixtures\:
-        resource: '../fixtures'
-
-    EmpireDesAmis\BottleInventory\Application\EventListener\OnBottleTasted:
-        tags: [ kernel.event_listener ]
-
     EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
         alias: EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepository
 
@@ -29,6 +23,9 @@ services:
     EmpireDesAmis\BottleInventory\Application\Adapter\BottleListAdapterInterface:
         alias: EmpireDesAmis\BottleInventory\Infrastructure\Doctrine\Adapter\BottleListDoctrineAdapter
         public: true
+
+    EmpireDesAmis\BottleInventory\Application\EventListener\OnBottleTasted:
+        tags: [ kernel.event_listener ]
 
     EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleProjection:
         tags: [ kernel.event_listener ]
@@ -59,6 +56,19 @@ services:
 
 when@dev:
     services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+            bind:
+                $emailBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN)%'
+                $passwordBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD)%'
+
+        EmpireDesAmis\BottleInventory\DataFixtures\:
+            resource: '../fixtures'
+
+        EmpireDesAmis\BottleInventory\:
+            resource: '../src/'
+
         EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
             alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
@@ -68,8 +78,51 @@ when@dev:
         EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserRepositoryInterface:
             alias: EmpireDesAmis\BottleInventory\Infrastructure\User\Repository\UserFakeRepository
 
+        EmpireDesAmis\BottleInventory\Application\EventListener\OnBottleTasted:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleListProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\AddPictureBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\AddPictureBottleListProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\TasteBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\UpdateBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\UpdateBottleListProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\DeleteBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\DeleteBottleListProjection:
+            tags: [ kernel.event_listener ]
+
 when@test:
     services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+            bind:
+                $emailBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN)%'
+                $passwordBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD)%'
+
+        EmpireDesAmis\BottleInventory\DataFixtures\:
+            resource: '../fixtures'
+
+        EmpireDesAmis\BottleInventory\:
+            resource: '../src/'
+
         EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
             alias: EmpireDesAmis\BottleInventory\Infrastructure\Country\Repository\CountryFakeRepository
         
@@ -81,3 +134,33 @@ when@test:
 
         EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
             alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
+
+        EmpireDesAmis\BottleInventory\Application\EventListener\OnBottleTasted:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\CreateBottleListProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\AddPictureBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\AddPictureBottleListProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\TasteBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\UpdateBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\UpdateBottleListProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\DeleteBottleProjection:
+            tags: [ kernel.event_listener ]
+
+        EmpireDesAmis\BottleInventory\Application\Projection\DeleteBottleListProjection:
+            tags: [ kernel.event_listener ]
