@@ -63,6 +63,6 @@
     traefik.enable: "true"
     traefik.http.routers.empire-des-amis-bottle-inventory.rule: "PathPrefix(`/bottle_inventory/api`)"
     traefik.http.routers.empire-des-amis-bottle-inventory.entrypoints: "web"
-    traefik.http.services.empire-des-amis-bottle-inventory.loadbalancer.server.port: "8081"
+    traefik.http.services.empire-des-amis-bottle-inventory.loadbalancer.server.port: "8083"
     traefik.http.routers.empire-des-amis-bottle-inventory.middlewares: "strip-prefix-bottle-inventory"
     traefik.http.middlewares.strip-prefix-bottle-inventory.stripPrefix.prefixes: "/bottle_inventory"
